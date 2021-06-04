@@ -1,0 +1,13 @@
+name = "NonadiabaticDynamicsBase"
+uuid = "78c76ebc-5665-4934-b512-82d81b5cbfb7"
+authors = ["James Gardner <james.gardner1421@gmail.com> and contributors"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
