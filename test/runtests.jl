@@ -1,6 +1,5 @@
 using NonadiabaticDynamicsBase
-using Test
+using Test, SafeTestsets
 
-@testset "NonadiabaticDynamicsBase.jl" begin
-    # Write your tests here.
-end
+@time @safetestset "Atoms tests" begin include("atoms.jl") end
+@time @safetestset "Cells tests" begin include("cells.jl") end
