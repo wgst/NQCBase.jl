@@ -1,7 +1,7 @@
 name = "NonadiabaticDynamicsBase"
 uuid = "78c76ebc-5665-4934-b512-82d81b5cbfb7"
 authors = ["James Gardner <james.gardner1421@gmail.com> and contributors"]
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 Distances = "b4f34e82-e78d-54a5-968a-f98e89d6e8f7"
