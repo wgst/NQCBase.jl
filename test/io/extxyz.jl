@@ -4,7 +4,6 @@ using NonadiabaticDynamicsBase
 
 atoms = Atoms([:H, :C, :O, :N])
 cell = PeriodicCell(rand(3, 3) .* 10)
-display(au_to_ang.(cell.vectors))
 R = rand(3, 4) .* 10
 
 @testset "to/from_extxyz_dict" begin
