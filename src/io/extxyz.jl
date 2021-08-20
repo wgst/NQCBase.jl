@@ -12,7 +12,7 @@ write_extxyz(file, atoms, R::Vector{<:Matrix}, cell) =
 
 function read_extxyz(file)
 
-    dict = ExtXYZ.read_frames(file, 1)[1]
+    dict = ExtXYZ.read_frame(file)
     atoms, R, cell = from_extxyz_dict(dict)
     positions = [R]
 
@@ -46,7 +46,8 @@ function from_extxyz_dict(dict::Dict{String,Any})
 
     atoms = Atoms(Symbol.(dict["arrays"]["species"]))
     R = ang_to_au.(dict["arrays"]["pos"])
-    cell = PeriodicCell{eltype(dict["cell"])}(ang_to_au.(dict["cell"]), dict["pbc"])
+    c = permutedims(dict["cell"], (2,1))
+    cell = PeriodicCell{eltype(c)}(ang_to_au.(c), dict["pbc"])
 
     return atoms, R, cell
 end
