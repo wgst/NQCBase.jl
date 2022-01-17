@@ -4,12 +4,24 @@ export read_extxyz
 
 import ExtXYZ
 
+"""
+    write_extxyz(file, atoms, R, cell)
+
+Uses ExtXYZ.jl to write a .extxyz file
+
+R can be either a single configuration (Matrix) or many (Vector{<:Matrix}).
+"""
 write_extxyz(file, atoms, R::Matrix, cell) =
     ExtXYZ.write_frame(file, to_extxyz_dict(atoms, R, cell))
 
 write_extxyz(file, atoms, R::Vector{<:Matrix}, cell) =
     ExtXYZ.write_frames(file, to_extxyz_dict.(Ref(atoms), R, Ref(cell)))
 
+"""
+    read_extxyz(file)
+
+Uses ExtXYZ.jl to read a .extxyz file
+"""
 function read_extxyz(file)
 
     dict = ExtXYZ.read_frame(file)

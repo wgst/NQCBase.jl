@@ -1,6 +1,25 @@
 
 export Atoms
 
+"""
+    Atoms{S,T<:AbstractFloat}
+
+Basic atomic parameters: element symbols, numbers and masses
+
+Masses are converted to atomic units.
+Constructed using either element symbols or masses.
+
+```jldoctest
+julia> Atoms(:H)
+Atoms{1, Float64}([:H], UInt8[0x01], [1837.4715941070515])
+
+julia> Atoms([:H, :H, :H, :C])
+Atoms{4, Float64}([:H, :H, :H, :C], UInt8[0x01, 0x01, 0x01, 0x06], [1837.4715941070515, 1837.4715941070515, 1837.4715941070515, 21894.713607956142])
+
+julia> Atoms([100, 200])
+Atoms{2, Float64}([:X, :X], UInt8[0x00, 0x00], [100.0, 200.0])
+```
+"""
 struct Atoms{S,T<:AbstractFloat}
     types::SVector{S,Symbol}
     numbers::SVector{S,UInt8}
