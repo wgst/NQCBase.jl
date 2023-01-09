@@ -34,9 +34,18 @@ Atoms(ase_atoms::PyObject) = Atoms{Float64}(Symbol.(ase_atoms.get_chemical_symbo
 positions(ase_atoms::PyObject) = austrip.(ase_atoms.get_positions()'u"Å")
 
 function Cell(ase_atoms::PyObject)
-    if all(ase_atoms.cell.array .== 0)
-        return InfiniteCell()
+
+    if ase_atoms.cell isa PyObject
+        if all(ase_atoms.cell.array .== 0)
+            return InfiniteCell()
+        else
+            return PeriodicCell{Float64}(austrip.(ase_atoms.cell.array'u"Å"), ase_atoms.pbc)
+        end
     else
-        return PeriodicCell{Float64}(austrip.(ase_atoms.cell.array'u"Å"), ase_atoms.pbc)
+        if all(ase_atoms.cell .== 0)
+            return InfiniteCell()
+        else
+            return PeriodicCell{Float64}(austrip.(ase_atoms.cell'u"Å"), ase_atoms.pbc)
+        end
     end
 end
