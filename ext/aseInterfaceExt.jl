@@ -1,5 +1,7 @@
+module aseInterfaceExt
 
-using .PyCall
+using NQCBase
+using PyCall
 using Unitful, UnitfulAtomic
 
 export convert_from_ase_atoms
@@ -39,4 +41,6 @@ function Cell(ase_atoms::PyObject)
     else
         return PeriodicCell{Float64}(austrip.(ase_atoms.cell.array'u"Å"), ase_atoms.pbc)
     end
+end
+
 end
