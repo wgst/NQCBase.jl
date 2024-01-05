@@ -1,6 +1,7 @@
 module NQCDynamicsBindings
 
-using NQCBase,NQCDynamics
+using NQCBase
+using NQCDynamics: AbstractSimulation, get_positions, get_velocities
 
 """
     distance(config::Any, i1, i2)

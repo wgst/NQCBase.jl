@@ -3,7 +3,6 @@ module NQCBase
 using PeriodicTable
 using Unitful, UnitfulAtomic
 using Requires
-using Reexport : @reexport
 
 include("unit_conversions.jl")
 include("atoms.jl")
