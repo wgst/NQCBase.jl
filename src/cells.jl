@@ -38,11 +38,11 @@ Base.eltype(::PeriodicCell{T}) where {T} = T
 
 function PeriodicCell(vectors::AbstractMatrix)
     vectors = austrip.(vectors)
-    PeriodicCell{eltype(vectors)}(vectors, [true, true, true]) 
+    PeriodicCell{eltype(vectors)}(vectors, [true, true, true])
 end
 
 function PeriodicCell(vectors::AbstractMatrix{<:Integer})
-    PeriodicCell{Float64}(vectors, [true, true, true]) 
+    PeriodicCell{Float64}(vectors, [true, true, true])
 end
 
 function set_periodicity!(cell::PeriodicCell, periodicity::AbstractVector{Bool})
@@ -52,6 +52,12 @@ end
 function set_vectors!(cell::PeriodicCell, vectors::AbstractMatrix)
     cell.vectors .= vectors
     cell.inverse .= inv(cell.vectors)
+end
+
+function apply_cell_boundaries!(cell::PeriodicCell, R::AbstractArray{T, 3})
+    @views for i in axes(R, 3) # beads
+        apply_cell_boundaries!(cell, R[:,:,i])
+    end
 end
 
 function apply_cell_boundaries!(cell::PeriodicCell, R::AbstractMatrix)
@@ -69,6 +75,15 @@ function apply_cell_boundaries!(cell::PeriodicCell, R::AbstractVector)
         end
     end
     mul!(R, cell.vectors, cell.tmp_vector1)
+end
+
+function check_atoms_in_cell(cell::PeriodicCell, R::AbstractArray{T,3})
+    @views for i in axes(R, 3) # beads
+        if !check_atoms_in_cell(cell, R[:,:,i])
+            return false
+        end
+    end
+    return true
 end
 
 """
