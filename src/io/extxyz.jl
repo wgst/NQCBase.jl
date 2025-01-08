@@ -11,11 +11,11 @@ Uses ExtXYZ.jl to write a .extxyz file
 
 R can be either a single configuration (Matrix) or many (Vector{<:Matrix}).
 """
-write_extxyz(file, atoms, R::Matrix, cell) =
-    ExtXYZ.write_frame(file, to_extxyz_dict(atoms, R, cell))
+write_extxyz(file, atoms, R::Matrix, cell; info::Dict{String,Any} = Dict{String,Any}()) =
+    ExtXYZ.write_frame(file, to_extxyz_dict(atoms, R, cell; info = info))
 
-write_extxyz(file, atoms, R::Vector{<:Matrix}, cell) =
-    ExtXYZ.write_frames(file, to_extxyz_dict.(Ref(atoms), R, Ref(cell)))
+write_extxyz(file, atoms, R::Vector{<:Matrix}, cell; info::Vector{Dict{String,Any}} = Dict{String,Any}[]) =
+    ExtXYZ.write_frames(file, to_extxyz_dict.(Ref(atoms), R, Ref(cell); info = info))
 
 """
     read_extxyz(file)
@@ -36,7 +36,7 @@ function read_extxyz(file)
     return atoms, positions, cell
 end
 
-function to_extxyz_dict(atoms::Atoms, R::Matrix, cell::PeriodicCell)
+function to_extxyz_dict(atoms::Atoms, R::Matrix, cell::PeriodicCell; info::Dict{String,Any} = Dict{String,Any}())
 
     dict = Dict{String, Any}()
     dict["N_atoms"] = length(atoms)
@@ -49,7 +49,7 @@ function to_extxyz_dict(atoms::Atoms, R::Matrix, cell::PeriodicCell)
     dict["arrays"]["species"] = String.(atoms.types) |> Array
     dict["arrays"]["pos"] = au_to_ang.(R)
 
-    dict["info"] = Dict{String,Any}()
+    dict["info"] = info
 
     return dict
 end
